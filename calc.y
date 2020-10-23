@@ -51,11 +51,9 @@ int error=0;
 { double p;}
 %token L_BRACKET R_BRACKET
 %token<p>num
-%token ADD SUB MUL DIV FLOOR CEIL ROUND
-%token PI LOG FACTORIAL LN E BI_DEC DEC_BI
-%token SQRT POW COMMA MOD
-%token ABS ASSIGN IF ELSE D
-%token SIN COS TAN ASIN ACOS ATAN SINH COSH TANH INC DEC AND OR XOR NOT LEFTSHIFT RIGHTSHIFT LESSER GREATER LESSERTHAN GREATERTHAN EQUAL NOTEQUAL
+%token ADD SUB MUL DIV FLOOR CEIL ROUND PI LOG FACTORIAL LN E BI_DEC DEC_BI SQRT POW COMMA MOD ABS ASSIGN IF ELSE D
+%token SIN COS TAN ASIN ACOS ATAN SINH COSH TANH COSEC SEC COT COSECH SECH COTH ACOSEC ASEC ACOT INC DEC AND OR XOR NOT LEFTSHIFT
+	 RIGHTSHIFT LESSER GREATER LESSERTHAN GREATERTHAN EQUAL NOTEQUAL
 
 /*Defining the Precedence and Associativity*/
 %left SUB ADD		//lowest precedence
@@ -75,7 +73,7 @@ int error=0;
 /* for storing the answer */
 ss: exp {if(error==0) printf("Result = %g\n",$1);}
 
-/* for binary arithmatic operators */
+                                                         //For binary arithmatic operators 
 exp :   exp ADD exp      { $$=$1+$3; }
        |exp SUB exp      { $$=$1-$3; }
        |exp MUL exp      { $$=$1*$3; }
@@ -89,15 +87,17 @@ exp :   exp ADD exp      { $$=$1+$3; }
        |SQRT L_BRACKET exp R_BRACKET {$$=sqrt($3);}
        |ABS L_BRACKET exp R_BRACKET  { $$ = abs($3);}
        
-       |exp INC                  {$$=$1+1;}
-       |exp DEC                  {$$=$1-1;}
+                                                               //For logical operations
        |exp OR exp       	{$$=(int)$1||(int)$3;}
        |exp AND exp      	{$$=(int)$1&&(int)$3;}
        |exp XOR exp      	{$$=(int)$1^(int)$3;}
        |NOT L_BRACKET exp R_BRACKET   {if($3==1){$$=0;} else 1;}
+       |exp INC                  {$$=$1+1;}
+       |exp DEC                  {$$=$1-1;}
        |exp LEFTSHIFT exp        {$$ = (int)$1<<(int) $3;}
        |exp RIGHTSHIFT exp       {$$ = (int)$1>>(int) $3;}
 
+                                                              //For all compatative operations
        |exp LESSER exp     	{$$ = $1<$3;}
        |exp GREATER exp  	{$$ = $1>$3;}
        |exp LESSERTHAN exp 	{$$ = $1<=$3;}
@@ -111,15 +111,29 @@ exp :   exp ADD exp      { $$=$1+$3; }
        |CEIL L_BRACKET exp R_BRACKET       { $$ = ceil($3);}
        |ROUND L_BRACKET exp R_BRACKET      { $$ = round($3);}
       
-       |SIN L_BRACKET exp R_BRACKET   {$$=sin($3);}
-       |COS L_BRACKET exp R_BRACKET  {$$=cos($3);}
-       |TAN L_BRACKET exp R_BRACKET  {$$=tan($3);}
-       |ASIN L_BRACKET exp R_BRACKET  {if($5<=1&&$5>=-1){$$=asin($5);} else(yyerror("Out of range\n"));}
-       |ACOS L_BRACKET exp R_BRACKET  {if($5<=1&&$5>=-1){$$=acos($5);} else(yyerror("Out of range\n"));}
-       |ATAN L_BRACKET exp R_BRACKET  {$$=atan($3);}
+                                                               //For all trignometric functions
+       |SIN L_BRACKET exp R_BRACKET     {$$=sin($3);}
+       |COS L_BRACKET exp R_BRACKET     {$$=cos($3);}
+       |TAN L_BRACKET exp R_BRACKET     {$$=tan($3);}
+       |COSEC L_BRACKET exp R_BRACKET   {$$=1/sin($3);}
+       |SEC L_BRACKET exp R_BRACKET     {$$=1/cos($3);}
+       |COT L_BRACKET exp R_BRACKET     {$$=1/tan($3);}
+
+       |ASIN L_BRACKET exp R_BRACKET    {if($3<=1&&$3>=-1){$$=asin($3);} else{yyerror("Out of range");}}
+       |ACOS L_BRACKET exp R_BRACKET    {if($3<=1&&$3>=-1){$$=acos($3);} else{yyerror("Out of range");}}
+       |ATAN L_BRACKET exp R_BRACKET    {$$=atan($3);}
+       |ACOSEC L_BRACKET exp R_BRACKET  {if($3>=1&&$3<=-1){$$=asin(1/$3);} else{yyerror("Out of range");}}
+       |ASEC L_BRACKET exp R_BRACKET    {if($3>=1&&$3<=-1){$$=acos(1/$3);} else{yyerror("Out of range");}}
+       |ACOT L_BRACKET exp R_BRACKET    {$$=atan(1/$3);}
+
        |SINH L_BRACKET exp R_BRACKET {$$=sinh($3);}
        |COSH L_BRACKET exp R_BRACKET  {$$=cosh($3);}
        |TANH L_BRACKET exp R_BRACKET  {$$=tanh($3);}
+       |COSECH L_BRACKET exp R_BRACKET {$$=1/sinh($3);}
+       |SECH L_BRACKET exp R_BRACKET {$$=1/cosh($3);}
+       |COTH L_BRACKET exp R_BRACKET {$$=1/tanh($3);}
+
+
        |BI_DEC L_BRACKET exp R_BRACKET
 		{$$=bi_dec((float)$3);}
        |DEC_BI L_BRACKET exp R_BRACKET
@@ -129,7 +143,7 @@ exp :   exp ADD exp      { $$=$1+$3; }
        |constant;
 constant:PI {$$=3.142;}
          |E {$$=2.71828;}
-	|D {$$=180;}
+	
        
     
 %%
@@ -143,6 +157,7 @@ void main()
        {   
 		printf("\n");        
 		printf("Enter a valid erpression:\n");
+                error=0;
        		     yyparse();	
        }while(1);
 
@@ -154,3 +169,4 @@ void yyerror(char *s)
        printf("\n%s",s);
        error=1;
 }
+
