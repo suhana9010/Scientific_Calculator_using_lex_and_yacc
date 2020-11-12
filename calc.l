@@ -30,7 +30,7 @@
 "^^" {return XOR;}
 "|"  {return B_OR;}
 "&"  {return B_AND;}
-"~"  {return NOT;}
+"!"  {return NOT;}
 "<<" {return LEFTSHIFT;}
 ">>" {return RIGHTSHIFT;}
 "%"  {return MOD;}
