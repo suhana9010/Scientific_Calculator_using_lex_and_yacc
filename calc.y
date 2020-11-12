@@ -199,7 +199,6 @@ exp :  exp ADD exp      { $$=$1+$3; }
          |SECH L_BRACKET exp R_BRACKET {$$= m==1 ? 1/cosh($3*3.14159/180): 1/cosh($3);}
          |COTH L_BRACKET exp R_BRACKET {if($3!=0) {$$= m==1 ? 1/tanh($3*3.14159/180): 1/tanh($3);}
                                 else(yyerror("Out of range\n"));}
-         ;
       
        |PERMT L_BRACKET exp COMMA exp R_BRACKET  {$$=fact($3)/fact($3-$5);}
        |COMB  L_BRACKET exp COMMA exp R_BRACKET  {$$=fact($3)/(fact($5)*fact($3-$5));}
@@ -263,7 +262,7 @@ void main()
        printf("\n\033[1;37m                 WELCOME TO YOUR SCIENFIFIC CALCULATOR         \033[0m\n");
        printf("\n");
        printf("\nAccessible Operators:\n + - * / \n < > <= >= == =! \n | && ^^ ! | & ++ -- << >>\n sqrt() abs() log() ln() ^ %\n floor() ceil() round() rcpl()\n fact() pct() pert() comb()\n hcf() lcm() max() min() avg()\n sin() cos() tan() cosec() sec() cot()\na sin() acos() atan() acosec() asec() acot()\n sinh() cosh() tanh() cosechh() sech() coth()\n bi_dec() dec_bi() dec_oct() oct_dec() cel_fah() fah_cel()\n mode quit\n");
-                       
+       printf("\n");                     
        do
        {   
 		char ch;
