@@ -13,6 +13,7 @@
                        		yylval.p = atof(yytext);
                        		return num;		
                        	}
+
 "+" {return ADD;}
 "-" {return SUB;}
 "*" {return MUL;}
@@ -27,6 +28,8 @@
 "&&" {return AND;}
 "||" {return OR;}
 "^^" {return XOR;}
+"|"  {return B_OR;}
+"&"  {return B_AND;}
 "~"  {return NOT;}
 "<<" {return LEFTSHIFT;}
 ">>" {return RIGHTSHIFT;}
@@ -39,9 +42,7 @@
 "=="  {return EQUAL;}
 "!=" {return NOTEQUAL;}
 "="  {return ASSIGN;}
-"if" {return IF;}
-"else" {return ELSE;}
-"deg"  {return D;}
+"quit" {return QUIT_CMD;}
 sin   return SIN;	
 cos   return COS;	
 tan   return TAN;
@@ -71,11 +72,29 @@ ceil    return CEIL;
 round   return ROUND;
 bi_dec  return BI_DEC;
 dec_bi  return DEC_BI;
+dec_oct return DEC_OCT;
+oct_dec return OCT_DEC;
+permt   return PERMT;
+comb    return COMB;
+mode    return MODE;
+hcf     return HCF;
+lcm     return LCM;
+max     return MAX;
+min     return MIN;
+avg     return AVG;
+pct     return PCT;
+cel_fah   return CEL_FAH; 
+fah_cel   return FAH_CEL; 
+rcpl      return RCPL;
+
 
 [\t];
+[a-z] {
+ yylval.id = *yytext - 'a';
+ return VARIABLE;
+ } 
 \n      return 0;
 .       return yytext[0];
 
 
 %%
-
