@@ -261,7 +261,7 @@ void main()
 {
        printf("\n\033[1;37m                 WELCOME TO YOUR SCIENFIFIC CALCULATOR         \033[0m\n");
        printf("\n");
-       printf("\nAccessible Operators:\n + - * / \n < > <= >= == =! \n | && ^^ ! | & ++ -- << >>\n sqrt() abs() log() ln() ^ %\n floor() ceil() round() rcpl()\n fact() pct() pert() comb()\n hcf() lcm() max() min() avg()\n sin() cos() tan() cosec() sec() cot()\na sin() acos() atan() acosec() asec() acot()\n sinh() cosh() tanh() cosechh() sech() coth()\n bi_dec() dec_bi() dec_oct() oct_dec() cel_fah() fah_cel()\n mode quit\n");
+       printf("\nAccessible Operators:\n + - * / \n < > <= >= == =! \n | && ^^ ! | & ++ -- << >>\n sqrt() abs() log() ln() ^ %\n floor() ceil() round() rcpl()\n fact() pct() pert() comb()\n hcf() lcm() max() min() avg()\n sin() cos() tan() cosec() sec() cot()\n asin() acos() atan() acosec() asec() acot()\n sinh() cosh() tanh() cosechh() sech() coth()\n bi_dec() dec_bi() dec_oct() oct_dec() cel_fah() fah_cel()\n mode quit\n");
        printf("\n");                     
        do
        {   
